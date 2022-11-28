@@ -1,0 +1,14 @@
+{
+  "name": "memer",
+  "version": "1.0.0",
+  "description": "A http API to generate memes from minimal input",
+  "main": "./index.js",
+  "scripts": {},
+  "author": "Aadvik <aadv1k@outlook.com>",
+  "license": "ISC",
+  "dependencies": {
+    "canvas": "^2.10.2",
+    "jimp": "^0.16.2",
+    "json5": "^2.2.1"
+  }
+}

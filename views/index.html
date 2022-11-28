@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Memer: An API to generates memes for entertainment and profit</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <section class="head">
+      <h1>Memer</h1>
+      <p>A RESTful Api to generate memes</p>
+    </section>
+
+    <section class="try-it">
+      <h2>Try it out!</h2>
+
+      <form action="" class="try-it__form" id="queryForm">
+        <div>
+          <label for="frmQuery">query</label>
+          <input type="text" required name="frmQuery" />
+        </div>
+
+        <div>
+          <label for="frmPos">position</label>
+          <select required name="frmPos">
+            <option value="">(top/center/bottom)</option>
+            <option value="top">top</option>
+            <option value="center">center</option>
+            <option value="bottom">bottom</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="frmText">text</label>
+          <input type="text" maxlength="60" required name="frmText" />
+        </div>
+        <button type="submit">Go!</button>
+      </form>
+      <div class="try-it__block" id="tryItBlock"></div>
+    </section>
+
+    <section class="info">
+      <h2>Usage</h2>
+      <code class="info__code-top">/new?</code>
+      <ul>
+        <li>
+          <code>query</code>
+          <p>
+            looks up the query on google, gets the link for the first image and
+            using some <em>super cool web scraping</em> extracts the image from
+            the link
+          </p>
+        </li>
+
+        <li>
+          <code>prompt</code>
+          <p>
+            specifies the text that should be displayed on the image, max 60
+            characters
+          </p>
+        </li>
+        <li>
+          <code>pos</code>
+          <p>specifies the vertical position of the text (top|center|bottom)</p>
+        </li>
+      </ul>
+    </section>
+  </body>
+  <script src="./app.js"></script>
+</html>
