@@ -23,9 +23,8 @@
   flex-direction: column;
   justify-content: center;
   padding-inline: .5em;
+  gap: 1em;
 }
-
-
 
 .try-it__form div {
   display: flex;
@@ -48,20 +47,18 @@
   transform: translateY(5px);
 }
 
-
 .try-it__form label {
   color: #CE7777;
-  opacity: .8;
-  font-size: .8em;
+  font-size: .9em;
   font-weight: bold;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  text-transform: capitalize;
 } 
 
 .try-it__form input, .try-it__form select {
   outline: none;
   border: 1px solid #CE7777;
-  height: 20px;
-  font-size: .9em;
+  height: 25px;
+  padding: 0 .5em;
   border-radius: 5px;
 } 
 
