@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "A http API to generate memes from minimal input",
   "main": "./index.js",
-  "scripts": {},
+  "scripts": {
+    "start": "node server/index.js"
+  },
   "author": "Aadvik <aadv1k@outlook.com>",
   "license": "ISC",
   "dependencies": {
