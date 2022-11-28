@@ -9,8 +9,7 @@ const CANV_H = 360
 module.exports = async function(params, url) {
   const cnv_img = await loadImage(url);
 
-  //const fontFile = path.join('../', config.imgFontPath);
-  //if (path.isfile(fontFile) ) registerFont(fontFile, { family: config.imgFontFamily ?? "sans-serif" });
+  registerFont("./impact.ttf", { family: "Impact" });
 
   // FIXME: Clean [and rename] this pile here
   const c_height = CANV_H;
@@ -25,7 +24,7 @@ module.exports = async function(params, url) {
 
   const FNT_SIZE = config?.imgFontSize ?? 20;
 
-  ctx.font = `bold ${FNT_SIZE}px ${config.imgFontFamily ?? "sans-serif"}`;
+  ctx.font = `bold ${FNT_SIZE}px Impact`;
   ctx.textBaseline = "middle";
 
   // Make the excess background black
