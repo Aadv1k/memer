@@ -1,6 +1,6 @@
 const https = require("https");
 const http = require("http");
-const { readFileSync } = require("fs");
+const { readFileSync, existsSync } = require("fs");
 
 const generateCanvas = require("./generateCanvas");
 const extractImageFromGoogleSearchQuery = require("./extractImageFromGoogleSearchQuery");
@@ -44,12 +44,12 @@ http
         );
       } else {
         const params = new Params(...query);
+        console.log(params);
 
         extractImageFromGoogleSearchQuery(params.query, {})
           .then(async (imageLink) => {
             const canvas = await generateCanvas(params, imageLink);
             const img_buffer = canvas.toBuffer("image/png");
-            console.log(imageLink);
             res.writeHead(200, { "Content-Type": "image/png"});
             res.end(img_buffer, "binary");
           })
@@ -60,9 +60,7 @@ http
             );
           });
       }
-    } else {
-      //res.end(readFileSync('./pages/404.html'), "utf8");
-    }
+   }
   })
   .listen(process.env.PORT || 8080);
 
