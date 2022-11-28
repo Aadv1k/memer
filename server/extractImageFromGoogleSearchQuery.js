@@ -37,6 +37,8 @@ function extractImageUrlFromPage(
     ...query.split(' ').filter(e => !generics.includes(e.toLowerCase()))
   ]
 
+  console.log(keywords);
+
   const options = {
     hostname: target.hostname,
     path: target.pathname,
@@ -67,7 +69,7 @@ function extractImageUrlFromPage(
                 kwMatchCount++;
             });
 
-            return kwMatchCount >= 1;
+            return kwMatchCount >= 2;
           }
         });
 
