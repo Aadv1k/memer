@@ -3,8 +3,6 @@ const https = require("https");
 const GSTATIC_URL_START = 32;
 const GSTATIC_URL_END = 147;
 
-const config = require("./config.js");
-
 const defaultSearchOpts = {
   allowedExtensions: ["png", "jpeg", "jpg"],
   barredSites: [
@@ -28,16 +26,14 @@ function extractImageUrlFromPage(
   keywords
 ) {
 
-  const allowedExtensions = config?.imgSeachOpts?.searchExtensions ?? defaultSearchOpts.allowedExtensions;
-  const generics = config?.imgSearchOpts?.searchKeywordGenerics ?? defaultSearchOpts.keywordGenerics;
+  const allowedExtensions = defaultSearchOpts.allowedExtensions;
+  const generics = defaultSearchOpts.keywordGenerics;
   const target = new URL(pageUrl);
 
   keywords = [
     ...keywords.filter(e => !generics.includes(e.toLowerCase())),
     ...query.split(' ').filter(e => !generics.includes(e.toLowerCase()))
   ]
-
-  console.log(keywords);
 
   const options = {
     hostname: target.hostname,
@@ -95,7 +91,7 @@ function extractImageFromGoogleSearchQuery(query) {
     .toLowerCase()
     .replaceAll(" ", "+")}&tbm=isch`;
 
-  let barredSites = config?.imgSearchOpts?.searchAvoid ?? defaultSearchOpts.barredSites;
+  let barredSites = defaultSearchOpts.barredSites;
 
   return new Promise((resolve, reject) => {
     https.get(gquery, (resp) => {
