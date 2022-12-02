@@ -28,20 +28,33 @@ function showCode(code) {
   target.appendChild(ctx);
 }
 
+function downloadBase64(base64) {
+  var a = document.createElement("a"); 
+  a.href = "data:image/jpg;base64," + base64; 
+  a.download = "image.jpg";
+  a.click(); 
+  delete a    
+}
+
+document.getElementById('btnsShare').style.display = "none";
+
 form.addEventListener("submit", e => {
+  document.getElementById('btnsShare').style.display = "none";
   e.preventDefault();
   const pos = form.elements["frmPos"].value;
   const query = form.elements["frmQuery"].value;
   const text = form.elements["frmText"].value;
 
   loadSpinner();
-
-  fetch(`/new?` + new URLSearchParams({
+  const url = "/new?" + new URLSearchParams({
     query: query,
     prompt: text,
     pos: pos
-  })).then(async (image) => {
+  })
+
+  fetch(url).then(async (image) => {
     removeSpinner();
+
     const buffer = await image.arrayBuffer();
     var base64Flag = 'data:image/jpeg;base64,';
     var imageStr = arrayBufferToBase64(buffer);
@@ -50,6 +63,10 @@ form.addEventListener("submit", e => {
     img.src = base64Flag + imageStr;
     img.classList.add("try-it__image")
     document.getElementById('tryItBlock').appendChild(img);
+
+    document.getElementById('btnDownload').addEventListener('click', _ => downloadBase64(imageStr));
+    document.getElementById('btnShare').addEventListener('click', _ => navigator.clipboard.writeText(window.location.href.slice(0, -1) + url))
+    document.getElementById('btnsShare').style.display = "flex";
   }).catch((err) => {
     console.log(err);
     showCode(err);
