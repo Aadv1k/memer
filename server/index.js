@@ -1,5 +1,6 @@
 const http = require("http");
-const { readFileSync, existsSync } = require("fs");
+const { readFileSync, existsSync, stat } = require("fs");
+const { createHash } = require('crypto');
 
 const generateCanvas = require("./generateCanvas");
 const extractImageFromGoogleSearchQuery = require("./extractImageFromSearch");
@@ -52,7 +53,21 @@ const server = http.createServer((req, res) => {
         res.end(readFileSync("./views/404.html"), "utf8");
       }
     } else if (req.url === "/" || req.url === "/index.html" || req.url === "/index") {
-      res.end(readFileSync("./views/index.html"), "utf8");
+      res.setHeader('Cache-Control', `max-age=31536000, no-cache`)
+
+      stat("./views/index.html", (_, stat) => {
+        const hash = createHash('sha256', "secret sauce").update(String(stat.mtime)).digest('hex');
+
+        if (req.headers['if-none-match'] && req.headers['if-none-match'] === hash) {
+          res.statusCode = 304;
+          res.end();
+        } else {
+          res.statusCode = 200;
+          res.setHeader('Etag', hash);
+          res.end(readFileSync("./views/index.html"), "utf8");
+        }
+      });
+
     } else if (req.url.startsWith("/new")) {
       const params = paramsIfParamsValid(req.url);
 
@@ -63,7 +78,11 @@ const server = http.createServer((req, res) => {
           .then(async (imageLink) => {
             const canvas = await generateCanvas(params, imageLink);
             const img_buffer = canvas.toBuffer("image/png");
+
+            res.setHeader('Connection', 'Keep-Alive');
+            res.setHeader('Keep-Alive', 'timeout=5, max=1000');
             res.writeHead(200, { "Content-Type": "image/png"});
+
             res.end(img_buffer, "binary");
           })
           .catch((_) => {
